@@ -173,9 +173,15 @@ module JWTSessions
     end
 
     def access_token_data(token, _first_match = false)
+      puts "===================starting==jwtdata===============#{token.inspect}"
+
       uuid = token_uuid(token, :access, @access_claims)
+      puts "===================middle==jwtdata===============#{uuid}"
+
       data = store.fetch_access(uuid)
+      puts "=====================jwtdata===============#{data.inspect}"
       raise Errors::Unauthorized, "Access token not found" if data.empty?
+      puts "=====================jwtdata====2222222222222222=========="
       data
     end
 
@@ -185,7 +191,10 @@ module JWTSessions
     end
 
     def token_uuid(token, type, claims)
+      puts "===================starting==tokenuuid===============#{token.inspect}===========#{type}=======#{claims}"
       token_payload = JWTSessions::Token.decode(token, claims).first
+      puts "===================starting==jwtdata===============#{token.inspect}"
+
       uuid          = token_payload.fetch("uuid", nil)
       if uuid.nil?
         message = "#{type.to_s.capitalize} token payload does not contain token uuid"

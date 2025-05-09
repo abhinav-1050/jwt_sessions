@@ -14,6 +14,7 @@ module JWTSessions
 
       def decode(token, claims = {})
         decode_options = { algorithm: JWTSessions.algorithm }.merge(JWTSessions.jwt_options.to_h).merge(claims)
+        puts "======================tokendecode===============#{decode_options}===========#{JWTSessions.validate?}=========#{token}"
         JWT.decode(token, JWTSessions.public_key, JWTSessions.validate?, decode_options)
       rescue JWT::ExpiredSignature => e
         raise Errors::Expired, e.message
